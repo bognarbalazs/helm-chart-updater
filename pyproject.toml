@@ -1,0 +1,90 @@
+[project]
+authors = [
+    { name="Balázs Bognár", github="bognarbalazs" },
+]
+classifiers = [
+   "Programming Language :: Python :: 3",
+   "Operating System :: OS Independent",
+]
+description = "Helm Chart Updater is a tool designed to automate the process of updating Helm charts in your Kubernetes deployments. It simplifies the management of chart versions, ensuring your applications are always running on the latest stable releases."
+name = "helm-chart-updater"
+keywords = ["helm", "chart", "updater", "kubernetes", "deployment", "automation"]
+dynamic = ["version"]
+dependencies = [
+    "PyYAML==6.0.2",
+    "pathlib==1.0.1",
+    "packaging==24.2",
+    "python-benedict==0.34.1",
+    "logzero==1.7.0"
+]
+
+requires-python = ">= 3.12"
+readme="README.md"
+
+[project.optional-dependencies]
+test = [
+    "PyYAML==6.0.2",
+    "pathlib==1.0.1",
+    "packaging==24.2",
+    "python-benedict==0.34.1",
+    "logzero==1.7.0",
+    "pytest-cov==6.1.1"
+]
+
+[project.scripts]
+helm-chart-updater = "helm_chart_updater:main"
+
+[build-system]
+requires = [
+    "hatch==1.14.1",
+    "hatchling==1.27.0",
+    "versioningit==3.1.2"
+]
+build-backend = "hatchling.build"
+
+[tool.hatch.version]
+source = "versioningit"
+default-version = "0.0.0+unknown"
+
+[tool.hatch.version.format]
+distance = "{next_version}.dev{distance}+{vcs}{rev}"
+dirty = "{version}+dirty"
+distance-dirty = "{next_version}.dev{distance}+{vcs}{rev}.dirty"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/helm_chart_updater"]
+"src/helm_chart_updater" = ["helm-chart-updater"]
+
+[tool.hatch.build.targets.sdist]
+include = [
+    "/src"
+]
+
+[tool.pytest.ini_options]
+pythonpath = [
+  "src"
+]
+log_cli = true
+log_cli_level = "DEBUG"
+log_cli_format = "%(asctime)s [%(levelname)8s] %(message)s (%(filename)s:%(lineno)s)"
+log_cli_date_format = "%Y-%m-%d %H:%M:%S"
+
+[tool.coverage.run]
+command_line= "-m pytest --junitxml=report.xml --cov --cov-report term --cov-report html:coverage.html -v"
+omit = [
+    # omit anything in a .local directory anywhere
+    "*/.local/*",
+    # omit everything in /usr
+    "/usr/*",
+    # omit everything in src/
+    "src/**"
+    ]
+
+[tool.coverage.report]
+fail_under = 70
+show_missing = false
+
+[tool.coverage.paths]
+source = [
+    "tests/",
+    ]
