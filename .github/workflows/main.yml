@@ -41,12 +41,6 @@ jobs:
         run: |
           pip install -e '.[test]'
           coverage run
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v4
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: coverage.html
-          publish_branch: gh-pages
   semver:
     runs-on: ubuntu-latest
     needs: build
