@@ -22,7 +22,7 @@ pip install .
 To install Helm Chart Updater from the Gitlab package registry, you can use pip:
 
 ```bash
-pip install helm-chart-updater --index-url
+pip install git+https://github.com/bognarbalazs/helm-chart-updater.git
 ```
 
 ## Usage
@@ -95,14 +95,13 @@ pip install -e .
 To run the test suite:
 
 ```bash
-pytest
+coverage run -m pytest
 ```
 
-### Build and upload package
+### Build package
 
 ```bash
-python -m build &&
-python -m twine upload --repository gitlab-helm-chart-updater dist/*
+python -m build
 ```
 
 ### SSLError
@@ -125,7 +124,7 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 4. Push to the branch ( git push origin feature/AmazingFeature)
 
-5. Open a Merge Request
+5. Open a Pull Request
 
 Please make sure to update tests as appropriate and adhere to the code style guidelines.
 
